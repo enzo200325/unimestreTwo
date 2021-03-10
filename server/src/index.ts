@@ -13,14 +13,15 @@ import { LectureTimeResolver } from "./resolvers/lectureTime";
 import { createConnection} from "typeorm";
 import { User } from "./entities/User";
 import { Teacher } from "./entities/Teacher";
-import { Lecture } from "./entities/Lecture";
 import { LectureTime } from "./entities/LectureTime";
 import { Note } from "./entities/Note";
 import { Subject } from "./entities/Subject";
 import { Code } from "./entities/Code";
 import { CodeResolver } from "./resolvers/code";
+import { NoteResolver } from "./resolvers/note";
 
 const main = async () => {
+    //creating typeORM connection to postgreSQL database
     const connection = await createConnection({
         type: "postgres",
         username: "postgres",
@@ -28,7 +29,7 @@ const main = async () => {
         database: "unimestreTwo2", 
         logging: true, 
         synchronize: true,
-        entities: [User, Code, Teacher, Lecture, LectureTime, Note, Subject]
+        entities: [User, Code, Teacher, LectureTime, Note, Subject]
     });
 
     const app = express(); 
@@ -38,6 +39,7 @@ const main = async () => {
         credentials: true,
     }))
 
+    // setting cookie config
     app.use(
         session({
             name: "qid",  
@@ -49,7 +51,7 @@ const main = async () => {
             resave: false,
             saveUninitialized: false,
             cookie: {
-                maxAge: 1000 * 60 * 60 * 24 * 365 * 10, // 10 years
+                maxAge: 1000 * 60 * 60 * 24 * 365 * 10,
                 httpOnly: true, 
                 sameSite: 'lax', // csrf
                 secure: !!__prod__ // cookie only works in https
@@ -59,7 +61,7 @@ const main = async () => {
 
     const apolloServer = new ApolloServer({
         schema: await buildSchema({
-            resolvers: [UserResolver, SubjectResolver, TeacherResolver, LectureTimeResolver, CodeResolver], 
+            resolvers: [UserResolver, SubjectResolver, TeacherResolver, LectureTimeResolver, CodeResolver, NoteResolver], 
             validate: false,
         }), 
         context: ({req, res}) => ({req, res })

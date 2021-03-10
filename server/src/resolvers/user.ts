@@ -29,6 +29,7 @@ export class UserResolver {
         return User.find({}); 
     }
 
+    // query used to find out if user is logged in or not 
     @Query(() => User, {nullable: true})
     async me(
         @Ctx() { req }: MyContext

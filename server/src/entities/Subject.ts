@@ -21,6 +21,7 @@ export class Subject extends BaseEntity {
   @Column({unique: true})
   name: string; 
 
+  @Field(() => [Teacher])
   @OneToMany(() => Teacher, teacher => teacher.subject)
   teachers: Teacher[]; 
 }

@@ -12,7 +12,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Teacher = void 0;
 const type_graphql_1 = require("type-graphql");
 const typeorm_1 = require("typeorm");
-const Lecture_1 = require("./Lecture");
 const LectureTime_1 = require("./LectureTime");
 const Subject_1 = require("./Subject");
 let Teacher = class Teacher extends typeorm_1.BaseEntity {
@@ -43,14 +42,12 @@ __decorate([
     __metadata("design:type", String)
 ], Teacher.prototype, "name", void 0);
 __decorate([
-    typeorm_1.OneToMany(() => Lecture_1.Lecture, lecture => lecture.teacher),
-    __metadata("design:type", Array)
-], Teacher.prototype, "lectures", void 0);
-__decorate([
+    type_graphql_1.Field(() => [LectureTime_1.LectureTime]),
     typeorm_1.OneToMany(() => LectureTime_1.LectureTime, lectureTime => lectureTime.teacher),
     __metadata("design:type", Array)
 ], Teacher.prototype, "lectureTimes", void 0);
 __decorate([
+    type_graphql_1.Field(() => Subject_1.Subject),
     typeorm_1.ManyToOne(() => Subject_1.Subject, subject => subject.teachers),
     __metadata("design:type", Subject_1.Subject)
 ], Teacher.prototype, "subject", void 0);

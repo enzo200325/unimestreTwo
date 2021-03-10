@@ -27,12 +27,12 @@ const lectureTime_1 = require("./resolvers/lectureTime");
 const typeorm_1 = require("typeorm");
 const User_1 = require("./entities/User");
 const Teacher_1 = require("./entities/Teacher");
-const Lecture_1 = require("./entities/Lecture");
 const LectureTime_1 = require("./entities/LectureTime");
 const Note_1 = require("./entities/Note");
 const Subject_1 = require("./entities/Subject");
 const Code_1 = require("./entities/Code");
 const code_1 = require("./resolvers/code");
+const note_1 = require("./resolvers/note");
 const main = () => __awaiter(void 0, void 0, void 0, function* () {
     const connection = yield typeorm_1.createConnection({
         type: "postgres",
@@ -41,7 +41,7 @@ const main = () => __awaiter(void 0, void 0, void 0, function* () {
         database: "unimestreTwo2",
         logging: true,
         synchronize: true,
-        entities: [User_1.User, Code_1.Code, Teacher_1.Teacher, Lecture_1.Lecture, LectureTime_1.LectureTime, Note_1.Note, Subject_1.Subject]
+        entities: [User_1.User, Code_1.Code, Teacher_1.Teacher, LectureTime_1.LectureTime, Note_1.Note, Subject_1.Subject]
     });
     const app = express_1.default();
     app.use(cors_1.default({
@@ -66,7 +66,7 @@ const main = () => __awaiter(void 0, void 0, void 0, function* () {
     }));
     const apolloServer = new apollo_server_express_1.ApolloServer({
         schema: yield type_graphql_1.buildSchema({
-            resolvers: [user_1.UserResolver, subject_1.SubjectResolver, teacher_1.TeacherResolver, lectureTime_1.LectureTimeResolver, code_1.CodeResolver],
+            resolvers: [user_1.UserResolver, subject_1.SubjectResolver, teacher_1.TeacherResolver, lectureTime_1.LectureTimeResolver, code_1.CodeResolver, note_1.NoteResolver],
             validate: false,
         }),
         context: ({ req, res }) => ({ req, res })

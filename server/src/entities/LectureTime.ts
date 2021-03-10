@@ -1,10 +1,12 @@
 import { Field, ObjectType } from "type-graphql";
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, CreateDateColumn, BaseEntity } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, CreateDateColumn, BaseEntity, OneToMany } from "typeorm";
+import { Note } from "./Note";
 import { Teacher } from "./Teacher";
 
 @ObjectType()
 @Entity()
 export class LectureTime extends BaseEntity {
+  @Field()
   @PrimaryGeneratedColumn()
   id!: number;  
 
@@ -35,4 +37,7 @@ export class LectureTime extends BaseEntity {
   @Field(() => Teacher)
   @ManyToOne(() => Teacher, teacher => teacher.lectureTimes)
   teacher: Teacher; 
+
+  @OneToMany(() => Note, note => note.lecture)
+  notes: Note[];
 } 

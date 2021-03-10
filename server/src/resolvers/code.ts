@@ -1,7 +1,7 @@
 import { Code } from "../entities/Code";
 import { Arg, Mutation, Resolver, Query } from "type-graphql";
 
-
+// resolver regarding the unique code every student has
 @Resolver()
 export class CodeResolver {
   @Query(() => [Code])

@@ -12,9 +12,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Note = void 0;
 const type_graphql_1 = require("type-graphql");
 const typeorm_1 = require("typeorm");
-const Lecture_1 = require("./Lecture");
+const LectureTime_1 = require("./LectureTime");
 const User_1 = require("./User");
-let Note = class Note {
+let Note = class Note extends typeorm_1.BaseEntity {
 };
 __decorate([
     type_graphql_1.Field(() => Number),
@@ -32,20 +32,17 @@ __decorate([
     __metadata("design:type", Date)
 ], Note.prototype, "updatedAt", void 0);
 __decorate([
+    type_graphql_1.Field(() => String, { nullable: true }),
+    typeorm_1.Column({ type: "text", nullable: true }),
+    __metadata("design:type", String)
+], Note.prototype, "description", void 0);
+__decorate([
     type_graphql_1.Field(() => String),
     typeorm_1.Column({ type: "text" }),
     __metadata("design:type", String)
-], Note.prototype, "content", void 0);
+], Note.prototype, "link", void 0);
 __decorate([
-    typeorm_1.ManyToOne(() => Lecture_1.Lecture, lecture => lecture.notes),
-    __metadata("design:type", Lecture_1.Lecture)
-], Note.prototype, "lecture", void 0);
-__decorate([
-    type_graphql_1.Field(),
-    typeorm_1.Column(),
-    __metadata("design:type", Number)
-], Note.prototype, "lectureId", void 0);
-__decorate([
+    type_graphql_1.Field(() => User_1.User),
     typeorm_1.ManyToOne(() => User_1.User, user => user.notes),
     __metadata("design:type", User_1.User)
 ], Note.prototype, "user", void 0);
@@ -54,6 +51,16 @@ __decorate([
     typeorm_1.Column(),
     __metadata("design:type", Number)
 ], Note.prototype, "userId", void 0);
+__decorate([
+    type_graphql_1.Field(() => LectureTime_1.LectureTime),
+    typeorm_1.ManyToOne(() => LectureTime_1.LectureTime, lecture => lecture.notes),
+    __metadata("design:type", LectureTime_1.LectureTime)
+], Note.prototype, "lecture", void 0);
+__decorate([
+    type_graphql_1.Field(() => Number),
+    typeorm_1.Column(),
+    __metadata("design:type", Number)
+], Note.prototype, "lectureId", void 0);
 Note = __decorate([
     type_graphql_1.ObjectType(),
     typeorm_1.Entity()

@@ -41,6 +41,7 @@ __decorate([
     __metadata("design:type", String)
 ], Subject.prototype, "name", void 0);
 __decorate([
+    type_graphql_1.Field(() => [Teacher_1.Teacher]),
     typeorm_1.OneToMany(() => Teacher_1.Teacher, teacher => teacher.subject),
     __metadata("design:type", Array)
 ], Subject.prototype, "teachers", void 0);

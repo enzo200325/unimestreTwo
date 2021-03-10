@@ -26,23 +26,6 @@ const LectureTime_1 = require("../entities/LectureTime");
 const Teacher_1 = require("../entities/Teacher");
 const type_graphql_1 = require("type-graphql");
 const typeorm_1 = require("typeorm");
-let LectureTimeResponse = class LectureTimeResponse {
-};
-__decorate([
-    type_graphql_1.Field(),
-    __metadata("design:type", String)
-], LectureTimeResponse.prototype, "day", void 0);
-__decorate([
-    type_graphql_1.Field(),
-    __metadata("design:type", String)
-], LectureTimeResponse.prototype, "time", void 0);
-__decorate([
-    type_graphql_1.Field(() => Teacher_1.Teacher),
-    __metadata("design:type", Object)
-], LectureTimeResponse.prototype, "teacher", void 0);
-LectureTimeResponse = __decorate([
-    type_graphql_1.ObjectType()
-], LectureTimeResponse);
 let LectureTimeResolver = class LectureTimeResolver {
     lectureTimes() {
         return __awaiter(this, void 0, void 0, function* () {

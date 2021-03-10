@@ -1,18 +1,9 @@
 import { LectureTime } from "../entities/LectureTime";
 import { Teacher } from "../entities/Teacher";
-import { Arg, Mutation, Resolver, Query, ObjectType, Field } from "type-graphql";
-import { Lecture } from "src/entities/Lecture";
+import { Arg, Mutation, Resolver, Query} from "type-graphql";
 import { getConnection } from "typeorm";
+import { FileWatcherEventKind, getTsBuildInfoEmitOutputFilePath } from "typescript";
 
-@ObjectType()
-class LectureTimeResponse {
-  @Field()
-  day: string; 
-  @Field()
-  time: string;  
-  @Field(() => Teacher)
-  teacher: Teacher | undefined; 
-}
 
 @Resolver()
 export class LectureTimeResolver {
