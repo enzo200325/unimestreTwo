@@ -1,0 +1,10 @@
+query getLectureTimes{
+  lectureTimes{
+    id
+    teacher{
+      name
+    }
+    day
+    time
+  }
+}

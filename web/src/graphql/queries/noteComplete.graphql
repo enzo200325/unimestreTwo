@@ -1,0 +1,16 @@
+query getNotes {
+  noteComplete {
+    id
+    userId
+    lecture {
+      time
+      day
+      teacher {
+        name
+      }
+    }
+    user {
+      username
+    }
+  }
+}

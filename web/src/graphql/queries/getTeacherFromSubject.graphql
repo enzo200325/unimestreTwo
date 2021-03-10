@@ -1,0 +1,11 @@
+query TeacherFromSubjectName($subjectName:String!){
+  getTeacherFromSubjectName(subjectName: $subjectName) {
+    teacher
+    lectures{
+      day
+      time
+      link
+      id
+    }
+}
+}
