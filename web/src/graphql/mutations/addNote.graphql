@@ -1,0 +1,6 @@
+mutation CreateNote($lectureId:Float! $user:String! $isImage:Boolean! $link:String!){
+  addNote(lectureId: $lectureId, user: $user, isImage: $isImage, link: $link) {
+    link
+    isImage
+  }
+}

@@ -37,8 +37,13 @@ __decorate([
     __metadata("design:type", String)
 ], Note.prototype, "description", void 0);
 __decorate([
-    type_graphql_1.Field(() => String),
-    typeorm_1.Column({ type: "text" }),
+    type_graphql_1.Field(() => Boolean),
+    typeorm_1.Column(),
+    __metadata("design:type", Boolean)
+], Note.prototype, "isImage", void 0);
+__decorate([
+    type_graphql_1.Field(() => String, { nullable: true }),
+    typeorm_1.Column({ type: "text", nullable: true }),
     __metadata("design:type", String)
 ], Note.prototype, "link", void 0);
 __decorate([

@@ -43,9 +43,11 @@ export const Header = (props) => {
     <header>
       <AppBar>
         <Toolbar className={toolbar}>
+          <Link href="/" passHref={true}>
           <Typography variant="h6" component="h1">
             Unimestre_v2
           </Typography>
+          </Link>
           {props.loggedIn ? logoutLink : loginLink}
         </Toolbar>
       </AppBar>

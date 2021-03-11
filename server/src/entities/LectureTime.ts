@@ -18,13 +18,26 @@ export class LectureTime extends BaseEntity {
   @CreateDateColumn()
   updatedAt: Date = new Date(); 
 
-  @Field(() => String)
-  @Column()
-  day: string; 
+  @Field(() => String, {nullable: true})
+  @Column({nullable: true})
+  month?: string; 
+
+  @Field(() => String, {nullable: true})
+  @Column({nullable: true})
+  day?: string; 
+
+  @Field(() => String, {nullable: true})
+  @Column({nullable: true})
+  weekDay?: string; 
 
   @Field(() => String)
   @Column()
   time: string; 
+  
+  @Field(() => String, {nullable: true})
+  @Column({nullable: true})
+  about?: string; 
+
 
   @Field(() => String, {nullable: true})
   @Column({nullable: true})
@@ -38,6 +51,7 @@ export class LectureTime extends BaseEntity {
   @ManyToOne(() => Teacher, teacher => teacher.lectureTimes)
   teacher: Teacher; 
 
+  @Field(() => [Note], {nullable: true})
   @OneToMany(() => Note, note => note.lecture)
-  notes: Note[];
+  notes?: Note[];
 } 

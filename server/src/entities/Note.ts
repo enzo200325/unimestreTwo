@@ -53,9 +53,13 @@ export class Note extends BaseEntity {
   @Column({type: "text", nullable: true}) 
   description?: string; 
 
-  @Field(() => String)
-  @Column({type: "text"})
-  link: string; 
+  @Field(() => Boolean)
+  @Column()
+  isImage: boolean; 
+
+  @Field(() => String, {nullable: true})
+  @Column({type: "text", nullable: true})
+  link?: string; 
 
   @Field(() => User)
   @ManyToOne(() => User, user => user.notes)

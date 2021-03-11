@@ -5,6 +5,7 @@ query getLectureTimes{
       name
     }
     day
+    weekDay
     time
   }
 }

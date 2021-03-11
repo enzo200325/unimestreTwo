@@ -44,13 +44,14 @@ export class NoteResolver {
 
   @Mutation(() => Note)
   async addNote(
+    @Arg("isImage") isImage: boolean, 
     @Arg("link") link: string, 
     @Arg("user") user: string, 
     @Arg("lectureId") lectureId: number
   ): Promise<Note> {
     const noteUser = await User.findOne({username: user})
     const noteLecture = await LectureTime.findOne({id: lectureId})
-    const noteCreated = await Note.create({link: link, userId: noteUser?.id, lectureId: noteLecture?.id}).save(); 
+    const noteCreated = await Note.create({isImage: isImage, link: link, userId: noteUser?.id, lectureId: noteLecture?.id}).save(); 
     return noteCreated; 
   }
 }

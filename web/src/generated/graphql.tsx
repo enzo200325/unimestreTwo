@@ -67,11 +67,29 @@ export type LectureTime = {
   id: Scalars['Float'];
   createdAt: Scalars['DateTime'];
   updatedAt: Scalars['DateTime'];
-  day: Scalars['String'];
+  month?: Maybe<Scalars['String']>;
+  day?: Maybe<Scalars['String']>;
+  weekDay?: Maybe<Scalars['String']>;
   time: Scalars['String'];
+  about?: Maybe<Scalars['String']>;
   link?: Maybe<Scalars['String']>;
   teacherId: Scalars['Float'];
   teacher: Teacher;
+  notes?: Maybe<Array<Note>>;
+};
+
+export type Note = {
+  __typename?: 'Note';
+  id: Scalars['Float'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  description?: Maybe<Scalars['String']>;
+  isImage: Scalars['Boolean'];
+  link?: Maybe<Scalars['String']>;
+  user: User;
+  userId: Scalars['Float'];
+  lecture: LectureTime;
+  lectureId: Scalars['Float'];
 };
 
 export type Subject = {
@@ -95,19 +113,6 @@ export type Code = {
   createdAt: Scalars['DateTime'];
   updatedAt: Scalars['DateTime'];
   value: Scalars['String'];
-};
-
-export type Note = {
-  __typename?: 'Note';
-  id: Scalars['Float'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-  description?: Maybe<Scalars['String']>;
-  link: Scalars['String'];
-  user: User;
-  userId: Scalars['Float'];
-  lecture: LectureTime;
-  lectureId: Scalars['Float'];
 };
 
 export type Mutation = {
@@ -156,8 +161,11 @@ export type MutationAddSubjectArgs = {
 
 export type MutationAddLectureTimeArgs = {
   teacherName: Scalars['String'];
+  about: Scalars['String'];
   time: Scalars['String'];
+  weekDay: Scalars['String'];
   day: Scalars['String'];
+  month: Scalars['String'];
 };
 
 
@@ -170,6 +178,7 @@ export type MutationAddNoteArgs = {
   lectureId: Scalars['Float'];
   user: Scalars['String'];
   link: Scalars['String'];
+  isImage: Scalars['Boolean'];
 };
 
 export type UserResponse = {
@@ -183,6 +192,40 @@ export type FieldError = {
   field: Scalars['String'];
   message: Scalars['String'];
 };
+
+export type AddLectureMutationVariables = Exact<{
+  teacherName: Scalars['String'];
+  month: Scalars['String'];
+  day: Scalars['String'];
+  weekDay: Scalars['String'];
+  time: Scalars['String'];
+  about: Scalars['String'];
+}>;
+
+
+export type AddLectureMutation = (
+  { __typename?: 'Mutation' }
+  & { addLectureTime: (
+    { __typename?: 'LectureTime' }
+    & Pick<LectureTime, 'month' | 'day' | 'weekDay' | 'time' | 'about'>
+  ) }
+);
+
+export type CreateNoteMutationVariables = Exact<{
+  lectureId: Scalars['Float'];
+  user: Scalars['String'];
+  isImage: Scalars['Boolean'];
+  link: Scalars['String'];
+}>;
+
+
+export type CreateNoteMutation = (
+  { __typename?: 'Mutation' }
+  & { addNote: (
+    { __typename?: 'Note' }
+    & Pick<Note, 'link' | 'isImage'>
+  ) }
+);
 
 export type LoginMutationVariables = Exact<{
   username: Scalars['String'];
@@ -246,7 +289,11 @@ export type TeacherFromSubjectNameQuery = (
     & Pick<Response, 'teacher'>
     & { lectures: Array<(
       { __typename?: 'LectureTime' }
-      & Pick<LectureTime, 'day' | 'time' | 'link' | 'id'>
+      & Pick<LectureTime, 'month' | 'day' | 'weekDay' | 'time' | 'about' | 'id'>
+      & { notes?: Maybe<Array<(
+        { __typename?: 'Note' }
+        & Pick<Note, 'isImage' | 'link'>
+      )>> }
     )> }
   )> }
 );
@@ -258,7 +305,7 @@ export type GetLectureTimesQuery = (
   { __typename?: 'Query' }
   & { lectureTimes: Array<(
     { __typename?: 'LectureTime' }
-    & Pick<LectureTime, 'id' | 'day' | 'time'>
+    & Pick<LectureTime, 'id' | 'day' | 'weekDay' | 'time'>
     & { teacher: (
       { __typename?: 'Teacher' }
       & Pick<Teacher, 'name'>
@@ -299,7 +346,52 @@ export type GetNotesQuery = (
   )> }
 );
 
+export type GetAllSubjectsQueryVariables = Exact<{ [key: string]: never; }>;
 
+
+export type GetAllSubjectsQuery = (
+  { __typename?: 'Query' }
+  & { subjects: Array<(
+    { __typename?: 'Subject' }
+    & Pick<Subject, 'name' | 'id'>
+  )> }
+);
+
+
+export const AddLectureDocument = gql`
+    mutation AddLecture($teacherName: String!, $month: String!, $day: String!, $weekDay: String!, $time: String!, $about: String!) {
+  addLectureTime(
+    teacherName: $teacherName
+    month: $month
+    day: $day
+    weekDay: $weekDay
+    time: $time
+    about: $about
+  ) {
+    month
+    day
+    weekDay
+    time
+    about
+  }
+}
+    `;
+
+export function useAddLectureMutation() {
+  return Urql.useMutation<AddLectureMutation, AddLectureMutationVariables>(AddLectureDocument);
+};
+export const CreateNoteDocument = gql`
+    mutation CreateNote($lectureId: Float!, $user: String!, $isImage: Boolean!, $link: String!) {
+  addNote(lectureId: $lectureId, user: $user, isImage: $isImage, link: $link) {
+    link
+    isImage
+  }
+}
+    `;
+
+export function useCreateNoteMutation() {
+  return Urql.useMutation<CreateNoteMutation, CreateNoteMutationVariables>(CreateNoteDocument);
+};
 export const LoginDocument = gql`
     mutation Login($username: String!, $password: String!) {
   login(username: $username, password: $password) {
@@ -350,10 +442,16 @@ export const TeacherFromSubjectNameDocument = gql`
   getTeacherFromSubjectName(subjectName: $subjectName) {
     teacher
     lectures {
+      month
       day
+      weekDay
       time
-      link
+      about
       id
+      notes {
+        isImage
+        link
+      }
     }
   }
 }
@@ -370,6 +468,7 @@ export const GetLectureTimesDocument = gql`
       name
     }
     day
+    weekDay
     time
   }
 }
@@ -411,4 +510,16 @@ export const GetNotesDocument = gql`
 
 export function useGetNotesQuery(options: Omit<Urql.UseQueryArgs<GetNotesQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<GetNotesQuery>({ query: GetNotesDocument, ...options });
+};
+export const GetAllSubjectsDocument = gql`
+    query GetAllSubjects {
+  subjects {
+    name
+    id
+  }
+}
+    `;
+
+export function useGetAllSubjectsQuery(options: Omit<Urql.UseQueryArgs<GetAllSubjectsQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<GetAllSubjectsQuery>({ query: GetAllSubjectsDocument, ...options });
 };

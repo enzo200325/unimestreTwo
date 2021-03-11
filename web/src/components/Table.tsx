@@ -22,6 +22,7 @@ export default function BasicTable({}) {
 
   let [{data}] = useGetLectureTimesQuery(); 
   const lectureTimes = data?.lectureTimes; 
+  console.log(lectureTimes); 
   let row1: any[] = ["7:30"], 
       row2: any[] = ["8:15"], 
       row3: any[] = ["9:15"], 
@@ -30,8 +31,9 @@ export default function BasicTable({}) {
       row6: any[] = ["11:45"]; 
   let rows = [row1, row2, row3, row4, row5, row6]; 
   for (let i = 0; i < lectureTimes?.length; i++) {
+    if (Number(lectureTimes[i]?.day) >= (new Date().getDate() - new Date().getDay())) {
     let time = lectureTimes[i]?.time;
-    let day = lectureTimes[i]?.day; 
+    let weekDay = lectureTimes[i]?.weekDay; 
     let teacher = lectureTimes[i]?.teacher.name; 
     const switchTime = (column: number) => {
       switch (time) {
@@ -55,7 +57,7 @@ export default function BasicTable({}) {
           break;
       }
     }
-    switch(day) {
+    switch(weekDay) {
       case "Monday":
         switchTime(1); 
         break; 
@@ -73,7 +75,9 @@ export default function BasicTable({}) {
         break; 
     }
   }
+  }
 
+  console.log(rows); 
   return (
     <TableContainer component={Paper} >
       <Table className={classes.table} aria-label="simple table">
@@ -92,11 +96,11 @@ export default function BasicTable({}) {
           {rows.map((row) => (
             <TableRow>
               <TableCell style={{padding: "10px"}}align="left">{row[0]}</TableCell>
-              <TableCell style={{padding: "9px"}}><LectureOnTable title={row[1]?.teacher?.name} link="" given={toWeekDay(row[1]?.day) > new Date().getDay() ? false : toWeekDay(row[1]?.day) < new Date().getDay() ? true : toMinutes(row[1]?.time) + 45 < (new Date().getTime() / 60000) - (new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()).getTime() / 60000) ? true : false} /></TableCell>
-              <TableCell style={{padding: "0px"}}><LectureOnTable title={row[2]?.teacher?.name} link="" given={toWeekDay(row[2]?.day) > new Date().getDay() ? false : toWeekDay(row[2]?.day) < new Date().getDay() ? true : toMinutes(row[2]?.time) + 45 < (new Date().getTime() / 60000) - (new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()).getTime() / 60000) ? true : false} /></TableCell>
-              <TableCell style={{padding: "0px"}}><LectureOnTable title={row[3]?.teacher?.name} link="" given={toWeekDay(row[3]?.day) > new Date().getDay() ? false : toWeekDay(row[3]?.day) < new Date().getDay() ? true : toMinutes(row[3]?.time) + 45 < (new Date().getTime() / 60000) - (new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()).getTime() / 60000) ? true : false} /></TableCell>
-              <TableCell style={{padding: "0px"}}><LectureOnTable title={row[4]?.teacher?.name} link="" given={toWeekDay(row[4]?.day) > new Date().getDay() ? false : toWeekDay(row[4]?.day) < new Date().getDay() ? true : toMinutes(row[4]?.time) + 45 < (new Date().getTime() / 60000) - (new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()).getTime() / 60000) ? true : false}/></TableCell>
-              <TableCell style={{padding: "0px"}}><LectureOnTable title={row[5]?.teacher?.name} link="" given={toWeekDay(row[5]?.day) > new Date().getDay() ? false : toWeekDay(row[5]?.day) < new Date().getDay() ? true : toMinutes(row[5]?.time) + 45 < (new Date().getTime() / 60000) - (new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()).getTime() / 60000) ? true : false} /></TableCell>
+              <TableCell style={{padding: "9px"}}><LectureOnTable title={row[1]?.teacher?.name} link="" given={toWeekDay(row[1]?.weekDay) > new Date().getDay() ? false : toWeekDay(row[1]?.weekDay) < new Date().getDay() ? true : toMinutes(row[1]?.time) + 45 < (new Date().getTime() / 60000) - (new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()).getTime() / 60000) ? true : false} /></TableCell>
+              <TableCell style={{padding: "0px"}}><LectureOnTable title={row[2]?.teacher?.name} link="" given={toWeekDay(row[2]?.weekDay) > new Date().getDay() ? false : toWeekDay(row[2]?.weekDay) < new Date().getDay() ? true : toMinutes(row[2]?.time) + 45 < (new Date().getTime() / 60000) - (new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()).getTime() / 60000) ? true : false} /></TableCell>
+              <TableCell style={{padding: "0px"}}><LectureOnTable title={row[3]?.teacher?.name} link="" given={toWeekDay(row[3]?.weedDay) > new Date().getDay() ? false : toWeekDay(row[3]?.weekDay) < new Date().getDay() ? true : toMinutes(row[3]?.time) + 45 < (new Date().getTime() / 60000) - (new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()).getTime() / 60000) ? true : false} /></TableCell>
+              <TableCell style={{padding: "0px"}}><LectureOnTable title={row[4]?.teacher?.name} link="" given={toWeekDay(row[4]?.weekDay) > new Date().getDay() ? false : toWeekDay(row[4]?.weekDay) < new Date().getDay() ? true : toMinutes(row[4]?.time) + 45 < (new Date().getTime() / 60000) - (new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()).getTime() / 60000) ? true : false}/></TableCell>
+              <TableCell style={{padding: "0px"}}><LectureOnTable title={row[5]?.teacher?.name} link="" given={toWeekDay(row[5]?.weekDay) > new Date().getDay() ? false : toWeekDay(row[5]?.weekDay) < new Date().getDay() ? true : toMinutes(row[5]?.time) + 45 < (new Date().getTime() / 60000) - (new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()).getTime() / 60000) ? true : false} /></TableCell>
             </TableRow>
           ))}
         </TableBody>

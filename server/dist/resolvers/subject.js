@@ -27,6 +27,7 @@ const type_graphql_1 = require("type-graphql");
 const typeorm_1 = require("typeorm");
 const Teacher_1 = require("../entities/Teacher");
 const LectureTime_1 = require("../entities/LectureTime");
+const Note_1 = require("../entities/Note");
 let response = class response {
 };
 __decorate([
@@ -62,8 +63,18 @@ let SubjectResolver = class SubjectResolver {
                     .from(LectureTime_1.LectureTime, "lectureTime")
                     .where(`lectureTime.teacherId = ${teacher.id}`)
                     .getMany();
+                const promises = qb.map((lecture) => __awaiter(this, void 0, void 0, function* () {
+                    const notes = yield typeorm_1.getConnection()
+                        .createQueryBuilder()
+                        .select("note")
+                        .from(Note_1.Note, "note")
+                        .where(`note.lectureId = ${lecture.id}`)
+                        .getMany();
+                    lecture.notes = notes;
+                }));
+                yield Promise.all(promises);
                 responseArray.push({
-                    teacher: teacher.name,
+                    teacher: teacher === null || teacher === void 0 ? void 0 : teacher.name,
                     lectures: qb,
                 });
             }));

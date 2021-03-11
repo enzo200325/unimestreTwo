@@ -2,10 +2,16 @@ query TeacherFromSubjectName($subjectName:String!){
   getTeacherFromSubjectName(subjectName: $subjectName) {
     teacher
     lectures{
+      month
       day
+      weekDay
       time
-      link
+      about
       id
+      notes {
+        isImage
+        link
+      }
     }
 }
 }

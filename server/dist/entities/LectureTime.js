@@ -37,15 +37,30 @@ __decorate([
     __metadata("design:type", Date)
 ], LectureTime.prototype, "updatedAt", void 0);
 __decorate([
-    type_graphql_1.Field(() => String),
-    typeorm_1.Column(),
+    type_graphql_1.Field(() => String, { nullable: true }),
+    typeorm_1.Column({ nullable: true }),
+    __metadata("design:type", String)
+], LectureTime.prototype, "month", void 0);
+__decorate([
+    type_graphql_1.Field(() => String, { nullable: true }),
+    typeorm_1.Column({ nullable: true }),
     __metadata("design:type", String)
 ], LectureTime.prototype, "day", void 0);
+__decorate([
+    type_graphql_1.Field(() => String, { nullable: true }),
+    typeorm_1.Column({ nullable: true }),
+    __metadata("design:type", String)
+], LectureTime.prototype, "weekDay", void 0);
 __decorate([
     type_graphql_1.Field(() => String),
     typeorm_1.Column(),
     __metadata("design:type", String)
 ], LectureTime.prototype, "time", void 0);
+__decorate([
+    type_graphql_1.Field(() => String, { nullable: true }),
+    typeorm_1.Column({ nullable: true }),
+    __metadata("design:type", String)
+], LectureTime.prototype, "about", void 0);
 __decorate([
     type_graphql_1.Field(() => String, { nullable: true }),
     typeorm_1.Column({ nullable: true }),
@@ -62,6 +77,7 @@ __decorate([
     __metadata("design:type", Teacher_1.Teacher)
 ], LectureTime.prototype, "teacher", void 0);
 __decorate([
+    type_graphql_1.Field(() => [Note_1.Note], { nullable: true }),
     typeorm_1.OneToMany(() => Note_1.Note, note => note.lecture),
     __metadata("design:type", Array)
 ], LectureTime.prototype, "notes", void 0);

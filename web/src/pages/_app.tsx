@@ -1,7 +1,7 @@
 import "../styles/globals.css"; 
 import { createClient, dedupExchange, fetchExchange, Provider } from "urql"
 import { cacheExchange, Cache, QueryInput } from "@urql/exchange-graphcache";
-import { MeDocument, LoginMutation, MeQuery, RegisterMutation, LogoutMutation } from "../generated/graphql";
+import { MeDocument, LoginMutation, MeQuery, RegisterMutation, LogoutMutation, useMeQuery } from "../generated/graphql";
 
 function betterUpdateQuery<Result, Query>(
   cache: Cache, 

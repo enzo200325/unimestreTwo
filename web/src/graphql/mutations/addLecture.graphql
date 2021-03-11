@@ -1,0 +1,9 @@
+mutation AddLecture($teacherName:String! $month:String! $day:String! $weekDay:String! $time:String!, $about:String!) {
+  addLectureTime(teacherName: $teacherName month: $month day: $day weekDay: $weekDay time: $time about: $about) {
+    month
+    day
+    weekDay
+    time
+    about
+  }
+}

@@ -1,10 +1,12 @@
 import { useState } from "react";
 import sha1 from "js-sha1"; 
+import { useCreateNoteMutation } from "../generated/graphql"
 
 const URL = "https://api.cloudinary.com/v1_1/duczgjqsk/image/upload"; 
 
 const Notes = () => {
   const [inputValue, setInputValue] = useState([]); 
+  const [_, createNote ]= useCreateNoteMutation()
 
   const handleSubmit = async (e: any) => {
     e.preventDefault(); 
@@ -18,13 +20,16 @@ const Notes = () => {
     formData.append("public_id", "sample_image");
     formData.append("timestamp", timestamp);
     formData.append("signature", signature);
-    console.log(formData);
 
-    const result = await fetch(URL, { 
+    let result = await fetch(URL, { 
       method: "POST", 
       body: formData, 
     })
-    console.log(result); 
+    result = await result.json()
+
+    if (result) {
+      await createNote({isImage: true, lectureId: 7, user: "enzo2003", link: result.url}); 
+    }
   }
 
   return (

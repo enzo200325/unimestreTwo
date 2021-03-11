@@ -36,10 +36,10 @@ let LectureTimeResolver = class LectureTimeResolver {
             return yield qb.getMany();
         });
     }
-    addLectureTime(day, time, teacherName) {
+    addLectureTime(month, day, weekDay, time, about, teacherName) {
         return __awaiter(this, void 0, void 0, function* () {
             const teacher = yield Teacher_1.Teacher.findOne({ name: teacherName });
-            return LectureTime_1.LectureTime.create({ day: day, time: time, teacherId: teacher === null || teacher === void 0 ? void 0 : teacher.id }).save();
+            return yield LectureTime_1.LectureTime.create({ month: month, day: day, weekDay: weekDay, time: time, about: about, teacherId: teacher === null || teacher === void 0 ? void 0 : teacher.id }).save();
         });
     }
 };
@@ -51,11 +51,14 @@ __decorate([
 ], LectureTimeResolver.prototype, "lectureTimes", null);
 __decorate([
     type_graphql_1.Mutation(() => LectureTime_1.LectureTime),
-    __param(0, type_graphql_1.Arg("day")),
-    __param(1, type_graphql_1.Arg("time")),
-    __param(2, type_graphql_1.Arg("teacherName")),
+    __param(0, type_graphql_1.Arg("month")),
+    __param(1, type_graphql_1.Arg("day")),
+    __param(2, type_graphql_1.Arg("weekDay")),
+    __param(3, type_graphql_1.Arg("time")),
+    __param(4, type_graphql_1.Arg("about")),
+    __param(5, type_graphql_1.Arg("teacherName")),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, String, String]),
+    __metadata("design:paramtypes", [String, String, String, String, String, String]),
     __metadata("design:returntype", Promise)
 ], LectureTimeResolver.prototype, "addLectureTime", null);
 LectureTimeResolver = __decorate([

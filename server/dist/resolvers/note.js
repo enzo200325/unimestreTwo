@@ -53,11 +53,11 @@ let NoteResolver = class NoteResolver {
             return yield qb.getMany();
         });
     }
-    addNote(link, user, lectureId) {
+    addNote(isImage, link, user, lectureId) {
         return __awaiter(this, void 0, void 0, function* () {
             const noteUser = yield User_1.User.findOne({ username: user });
             const noteLecture = yield LectureTime_1.LectureTime.findOne({ id: lectureId });
-            const noteCreated = yield Note_1.Note.create({ link: link, userId: noteUser === null || noteUser === void 0 ? void 0 : noteUser.id, lectureId: noteLecture === null || noteLecture === void 0 ? void 0 : noteLecture.id }).save();
+            const noteCreated = yield Note_1.Note.create({ isImage: isImage, link: link, userId: noteUser === null || noteUser === void 0 ? void 0 : noteUser.id, lectureId: noteLecture === null || noteLecture === void 0 ? void 0 : noteLecture.id }).save();
             return noteCreated;
         });
     }
@@ -83,11 +83,12 @@ __decorate([
 ], NoteResolver.prototype, "getNotesFromLecture", null);
 __decorate([
     type_graphql_1.Mutation(() => Note_1.Note),
-    __param(0, type_graphql_1.Arg("link")),
-    __param(1, type_graphql_1.Arg("user")),
-    __param(2, type_graphql_1.Arg("lectureId")),
+    __param(0, type_graphql_1.Arg("isImage")),
+    __param(1, type_graphql_1.Arg("link")),
+    __param(2, type_graphql_1.Arg("user")),
+    __param(3, type_graphql_1.Arg("lectureId")),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, String, Number]),
+    __metadata("design:paramtypes", [Boolean, String, String, Number]),
     __metadata("design:returntype", Promise)
 ], NoteResolver.prototype, "addNote", null);
 NoteResolver = __decorate([

@@ -47,7 +47,7 @@ export function ListForLectureOnTable(props) {
           </List>
         </Collapse>
         <ListItem button>
-          <a href="">Notas</a>        
+          <a href="" style={{textDecoration: "none", color: "black"}}>Ver Mais</a>        
         </ListItem>
       </List>
     )
